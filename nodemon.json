@@ -1,0 +1,6 @@
+{
+  "watch": ["./dist-back/src/index.js"],
+  "ext": "ts",
+  "ignore": ["./public", "./client"],
+  "exec": "NODE_ENV=development ts-node ./server/src/index.ts"
+}

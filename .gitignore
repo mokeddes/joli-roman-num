@@ -1,0 +1,15 @@
+node_modules
+npm-debug.log
+.DS_Store
+.vscode/
+.history/
+.env
+.cache/
+coverage/
+
+public/*
+dist-back/*
+
+"celebrate": "git+https://git@github.com/Meemaw/celebrate.git#meemaw-fix-typings",
+
+git+https://git@https://github.com/arb/celebrate.git#format-update
