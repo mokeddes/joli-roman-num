@@ -3,10 +3,11 @@
 import * as dotenv from 'dotenv';
 
 dotenv.config();
+let PORT!: string;
 
 describe('Convert from arabic to roman', () => {
   beforeAll(async () => {
-    const { PORT } = process.env;
+    PORT = process.env.PORT;
 
     await page.goto(`http://localhost:${PORT}/front/`, {
       waitUntil: 'load',
@@ -35,7 +36,7 @@ describe('Convert from arabic to roman', () => {
     await page.type('#introducedValueArabic', '2');
     await page.click('#convertToRoman');
     const firstResponse = await page.waitForResponse(
-      'http://localhost:6893/to-roman',
+      `http://localhost:${PORT}/to-roman`,
       { timeout: 30000 },
     );
     const arabicToRoman = await page.$eval(
@@ -57,7 +58,7 @@ describe('Convert from arabic to roman', () => {
     await page.type('#introducedValueArabic', '1');
     await page.click('#convertToRoman');
     const firstResponse = await page.waitForResponse(
-      'http://localhost:6893/to-roman',
+      `http://localhost:${PORT}/to-roman`,
       { timeout: 30000 },
     );
     const arabicToRoman = await page.$eval(
@@ -79,7 +80,7 @@ describe('Convert from arabic to roman', () => {
     await page.type('#introducedValueArabic', '10');
     await page.click('#convertToRoman');
     const firstResponse = await page.waitForResponse(
-      'http://localhost:6893/to-roman',
+      `http://localhost:${PORT}/to-roman`,
       { timeout: 30000 },
     );
     const arabicToRoman = await page.$eval(
@@ -99,7 +100,7 @@ describe('Convert from arabic to roman', () => {
     await page.type('#introducedValueRoman', 'III');
     await page.click('#convertToArabic');
     const firstResponse = await page.waitForResponse(
-      'http://localhost:6893/to-arabic',
+      `http://localhost:${PORT}/to-arabic`,
       { timeout: 30000 },
     );
     const romanToArabic = await page.$eval(
@@ -119,7 +120,7 @@ describe('Convert from arabic to roman', () => {
     await page.type('#introducedValueRoman', 'II');
     await page.click('#convertToArabic');
     const firstResponse = await page.waitForResponse(
-      'http://localhost:6893/to-arabic',
+      `http://localhost:${PORT}/to-arabic`,
       { timeout: 30000 },
     );
     const romanToArabic = await page.$eval(
@@ -139,7 +140,7 @@ describe('Convert from arabic to roman', () => {
     await page.type('#introducedValueRoman', 'X');
     await page.click('#convertToArabic');
     const firstResponse = await page.waitForResponse(
-      'http://localhost:6893/to-arabic',
+      `http://localhost:${PORT}/to-arabic`,
       { timeout: 30000 },
     );
     const romanToArabic = await page.$eval(

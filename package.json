@@ -4,20 +4,26 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "dev-back": "concurrently --kill-others -k -n \"Typescript,Node\" -p \"[{name}]\" -c \"blue,green\" \"tsc --watch\" \"nodemon --config ./nodemon.json\"",
-    "start-back": "tsc && node dist-back/src/index.js",
+    "dev-back": "nodemon --watch 'server/src/**/*.ts' --ignore 'src/**/*.spec.ts' --exec 'ts-node' ./server/src/index.ts",
+    "build-back": "tsc",
+    "start-back": "npm run build-back && node dist-back/src/index.js",
     "lint": "tsc --noEmit && eslint \"**/*.{js,ts}\" --quiet --fix",
     "dev-front": "parcel watch client/index.html -d public --public-url ./",
-    "build-front": "parcel build ./client/index.html",
+    "build-front": "parcel build ./client/index.html -d public --public-url ./",
     "dev-all": "concurrently \"npm run dev-front\" \"npm run dev-back\"",
+    "build-all": "npm run build-front && npm run build-back",
     "start-all": "npm run build-front && npm run start-back",
     "test": "jest",
-    "test-e2e": "jest -c tests/e2e/jest.config.js",
+    "test-e2e": "npm run build-all && jest -c tests/e2e/jest.config.js",
     "test:coverage": "jest --coverage",
     "test:watch": "jest --watch"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "roman",
+    "numerals",
+    "roman"
+  ],
+  "author": "Anis MOKEDDES <mokeddes.anis@gmail.com>",
   "license": "ISC",
   "dependencies": {
     "@types/dotenv": "^8.2.0",
@@ -52,6 +58,7 @@
     "puppeteer": "^2.0.0",
     "supertest": "^4.0.2",
     "ts-jest": "^24.1.0",
+    "ts-node": "^8.5.0",
     "ts-node-dev": "^1.0.0-pre.44",
     "typescript": "^3.7.2"
   },
