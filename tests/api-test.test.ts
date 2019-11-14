@@ -12,11 +12,7 @@ describe("Post Endpoints", () => {
       .send({
         arabicNumber: 1
       });
-    expect(res.status).toEqual(201);
-    expect(res.body).toHaveProperty("arabicNumber");
-    expect(res.body).toHaveProperty("romanSymbols");
-    expect(res.body.arabicNumber).toEqual(1);
-    expect(res.body.romanSymbols).toEqual("I");
+    expect(res.status).toEqual(204);
   });
 });
 
@@ -27,11 +23,7 @@ describe("Post Endpoints", () => {
       .send({
         arabicNumber: 2
       });
-    expect(res.status).toEqual(201);
-    expect(res.body).toHaveProperty("arabicNumber");
-    expect(res.body).toHaveProperty("romanSymbols");
-    expect(res.body.arabicNumber).toEqual(2);
-    expect(res.body.romanSymbols).toEqual("II");
+    expect(res.status).toEqual(204);
   });
 });
 
@@ -42,11 +34,7 @@ describe("Post Endpoints", () => {
       .send({
         romanSymbols: "I"
       });
-    expect(res.status).toEqual(201);
-    expect(res.body).toHaveProperty("arabicNumber");
-    expect(res.body).toHaveProperty("romanSymbols");
-    expect(res.body.arabicNumber).toEqual(1);
-    expect(res.body.romanSymbols).toEqual("I");
+    expect(res.status).toEqual(204);
   });
 });
 

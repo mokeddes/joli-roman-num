@@ -6,7 +6,7 @@ import express, {
 } from 'express';
 
 import { errors } from 'celebrate';
-import routes from '../api/index';
+import routes from '../api/routes/index';
 
 interface MyCustomError extends Error {
   status?: number;

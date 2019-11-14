@@ -5,11 +5,9 @@ const resultRoman = document.querySelector('#resultRoman');
 const introducedValueRoman = document.querySelector('#introducedValueRoman');
 const convertToArabic = document.querySelector('#convertToArabic');
 const resultArabic = document.querySelector('#resultArabic');
-
-convertToRoman.addEventListener('click', async () => {
-  const responseCallConvertToRoman = await fetch(
-    `http://localhost:${process.env.PORT}/to-roman`,
-    {
+if (window.EventSource) {
+  convertToRoman.addEventListener('click', async () => {
+    await fetch(`http://localhost:${process.env.PORT}/to-roman`, {
       method: 'POST',
       body: JSON.stringify({
         arabicNumber: Number(introducedValueArabic.value),
@@ -17,19 +15,11 @@ convertToRoman.addEventListener('click', async () => {
       headers: {
         'Content-Type': 'application/json',
       },
-    },
-  );
+    });
+  });
 
-  const myNumberConverted = await responseCallConvertToRoman.json();
-
-  const { romanSymbols } = myNumberConverted;
-  resultRoman.value = romanSymbols;
-});
-
-convertToArabic.addEventListener('click', async () => {
-  const responseCallConvertToArabic = await fetch(
-    `http://localhost:${process.env.PORT}/to-arabic`,
-    {
+  convertToArabic.addEventListener('click', async () => {
+    await fetch(`http://localhost:${process.env.PORT}/to-arabic`, {
       method: 'POST',
       body: JSON.stringify({
         romanSymbols: introducedValueRoman.value.toUpperCase(),
@@ -37,18 +27,55 @@ convertToArabic.addEventListener('click', async () => {
       headers: {
         'Content-Type': 'application/json',
       },
-    },
+    });
+  });
+}
+
+function log(msg) {
+  document.querySelector('#logElem').innerHTML += `Event: ${msg}<br>`;
+}
+
+if (!window.EventSource) {
+  // IE or an old browser
+  alert("The browser doesn't support EventSource.");
+} else {
+  const eventSource = new EventSource(
+    `http://localhost:${process.env.PORT}/event-stream`,
   );
-  const myNumberConverted = await responseCallConvertToArabic.json();
 
-  const { arabicNumber } = myNumberConverted;
-  resultArabic.value = arabicNumber;
-});
+  eventSource.onopen = () => {
+    log('Event: open');
+  };
 
-// {
-//   method: 'post',
-//   headers: {
-//     "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
-//   },
-//   body: 'foo=bar&lorem=ipsum'
-// }
+  eventSource.onerror = () => {
+    log('Event: error');
+    if (this.readyState == EventSource.CONNECTING) {
+      log(`Reconnecting (readyState=${this.readyState})...`);
+    } else {
+      log('Error has occured.');
+    }
+  };
+
+  eventSource.addEventListener(
+    'update-resultArabic',
+    (evt) => {
+      log('Event: new data update-resultArabic');
+      const data = JSON.parse(evt.data);
+      const { arabicNumber } = data;
+      resultArabic.value = arabicNumber;
+      // Use data here
+    },
+    false,
+  );
+  eventSource.addEventListener(
+    'update-resultRoman',
+    (evt) => {
+      log('Event: new data update-resultRoman');
+      const data = JSON.parse(evt.data);
+      const { romanSymbols } = data;
+      resultRoman.value = romanSymbols;
+      // Use data here
+    },
+    false,
+  );
+}
