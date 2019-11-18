@@ -26,4 +26,6 @@ npm run test-e2e
 
 ```bash
 npm run start-all
+
+# Then tape on browser : http://localhost:{port}/front/
 ```
