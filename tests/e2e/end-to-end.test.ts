@@ -18,7 +18,7 @@ describe('Convert from arabic to roman', () => {
   });
 
   beforeEach(async () => {
-    jest.setTimeout(10000);
+    jest.setTimeout(15000);
   });
 
   it('should match a button with a "convertToRomanValue" text inside', async () => {
@@ -45,7 +45,7 @@ describe('Convert from arabic to roman', () => {
     );
 
     await expect(arabicToRoman).toBe('II');
-    await page.waitFor(100);
+    await page.waitFor(1000);
 
     // await expect(page).toMatch("React");
   });
@@ -67,7 +67,7 @@ describe('Convert from arabic to roman', () => {
     );
 
     // await jestPuppeteer.debug();
-
+    await page.waitFor(200);
     await expect(arabicToRoman).toBe('I');
   });
 
@@ -87,7 +87,7 @@ describe('Convert from arabic to roman', () => {
       '#resultRoman',
       (arabicToRomanResult: HTMLInputElement) => arabicToRomanResult.value,
     );
-
+    await page.waitFor(200);
     await expect(arabicToRoman).toBe('X');
   });
 
@@ -107,7 +107,7 @@ describe('Convert from arabic to roman', () => {
       '#resultArabic',
       (romanToArabicResult: HTMLInputElement) => romanToArabicResult.value,
     );
-
+    await page.waitFor(200);
     await expect(romanToArabic).toBe('3');
   });
 
@@ -127,6 +127,7 @@ describe('Convert from arabic to roman', () => {
       '#resultArabic',
       (romanToArabicResult: HTMLInputElement) => romanToArabicResult.value,
     );
+    await page.waitFor(200);
 
     await expect(romanToArabic).toBe('2');
   });
@@ -147,6 +148,7 @@ describe('Convert from arabic to roman', () => {
       '#resultArabic',
       (romanToArabicResult: HTMLInputElement) => romanToArabicResult.value,
     );
+    await page.waitFor(200);
 
     await expect(romanToArabic).toBe('10');
   });

@@ -4,6 +4,7 @@ import {
 
 import { celebrate, Joi } from 'celebrate';
 import arabicDecimalToRoman from '../../../services/toRoman';
+import emitter from '../../shared/eventBus';
 
 const route = Router();
 
@@ -23,9 +24,16 @@ export default (app: Router) => {
     }),
     async (req, res, next) => {
       try {
+        res.status(204).send();
+
         const { arabicNumber } = req.body;
         const romanSymbols = arabicDecimalToRoman(arabicNumber);
-        res.status(201).send({ romanSymbols, arabicNumber });
+        // fire ecent to SSE controllers
+        emitter.emit('sse-event', {
+          fromArabicToRoman: true,
+          romanSymbols,
+          arabicNumber,
+        });
       } catch (error) {
         // To-Do add logger
         console.error('🔥 error %o', error);
